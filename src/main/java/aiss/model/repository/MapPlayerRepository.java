@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.w3c.dom.ls.LSOutput;
 
@@ -36,6 +37,7 @@ public class MapPlayerRepository implements PlayerRepository{
 		Player Tyler1 = new Player();
 		List<String> champions = new ArrayList<String>();
 		List<String> lenguages = new ArrayList<String>();
+		List<String> roles = new ArrayList<String>();
 		champions.add("Draven");
 		lenguages.add("English");
 		Tyler1.setChampions(champions);
@@ -45,6 +47,8 @@ public class MapPlayerRepository implements PlayerRepository{
 		Tyler1.setLocation("NA");
 		Tyler1.setSummonerName("Tyler1");
 		Tyler1.setTier("I");
+		Tyler1.setPassword("tyler");
+		Tyler1.setRoles(roles);
 		addPlayer(Tyler1);
 	
 	}
@@ -59,12 +63,22 @@ public class MapPlayerRepository implements PlayerRepository{
 	
 	@Override
 	public Collection<Player> getAllPlayers() {
-			return playerMap.values();
+		Map<String, Player> displayedMap = new HashMap<String,Player>();
+		
+		Set<String> keySet = playerMap.keySet();
+		for(String key : keySet) {
+			Player p = playerMap.get(key);
+			p.setPassword("You shouldn't be seeing this");
+			displayedMap.put(key, p);
+		}
+			return displayedMap.values();
 	}
 
 	@Override
 	public Player getPlayer(String id) {
-		return playerMap.get(id);
+		Player displayedPlayer = playerMap.get(id);
+		displayedPlayer.setPassword("You shouldn't be seeing this");
+		return displayedPlayer;
 	}
 
 	@Override
@@ -82,7 +96,7 @@ public class MapPlayerRepository implements PlayerRepository{
 		player.setTier(p.getTier());
 		player.setLenguages(p.getLenguages());
 		player.setEmail(p.getEmail());
-		
+		player.setRoles(p.getRoles());
 	}
 	
 }

@@ -13,6 +13,8 @@ public class Player {
 	private String division;
 	private List<String> lenguages;
 	private String email;
+	private String password;
+	private List<String> roles;
 
 	public Player() {
 	}
@@ -27,6 +29,8 @@ public class Player {
 		this.division = division;
 		this.lenguages = new ArrayList<String>();
 		this.email = null;
+		this.password = password;
+		this.roles = new ArrayList<String>();
 	}
 	
 	
@@ -95,5 +99,20 @@ public class Player {
 		this.email = email;
 	}
 	
+	public String getPassword(){
+		return password;
+	}
 	
+	public void setPassword(String password){
+		this.password = password;
+	}
+	
+	public List<String> getRoles(){
+		List <String> res = new ArrayList<String>(this.roles);
+		return res;
+	}
+	
+	public void setRoles(List<String> roles){
+		this.roles = roles;
+	}
 }
