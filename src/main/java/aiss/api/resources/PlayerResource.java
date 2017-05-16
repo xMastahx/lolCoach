@@ -54,7 +54,8 @@ public class PlayerResource {
 	(Arrays.asList("I", "II", "III", "IV", "V"));
 	public static final List<String> ROLE_POOL = new ArrayList<String>
 	(Arrays.asList("Top", "Jungler", "Mid", "Marksman", "Support"));
-	
+	public static final List<String> REGION_POOL = new ArrayList<String>
+	(Arrays.asList("EUW", "NA", "EUE", "KOREA", "OCEANIA", "JAPAN", "BRAZIL", "LAS", "LAN", "RUSSIA", "TURKEY"));
 	private boolean areChampsOk(Player player) {
 		
 		Boolean res = true;
@@ -76,6 +77,12 @@ public class PlayerResource {
 	private boolean isTierOk(Player player) {
 		
 		Boolean res = TIER_POOL.contains(player.getTier());
+		return res;
+	}
+	
+	private boolean isLocationOk(Player player) {
+		
+		Boolean res = REGION_POOL.contains(player.getLocation());
 		return res;
 	}
 	
@@ -114,6 +121,13 @@ public class PlayerResource {
 		return player;
 	}
 	
+	@GET
+	@Path("/location/{location}/tier/{tier}/lenguage/{lenguage}/role/{role}")
+	@Produces("application/json")
+	
+	public Collection<Player> getPlayersFiltered(){
+		return null;
+	}
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -147,6 +161,10 @@ public class PlayerResource {
 				throw new BadRequestException("La división no es válida");
 			}
 			if(!isTierOk(player)){
+				throw new BadRequestException("El tier no es correcto");
+			}
+			
+			if(!isLocationOk(player)){
 				throw new BadRequestException("El tier no es correcto");
 			}
 			
@@ -198,6 +216,10 @@ public class PlayerResource {
 			throw new BadRequestException("La división no es válida");
 		}
 		if(!isTierOk(player)){
+			throw new BadRequestException("El tier no es correcto");
+		}
+		
+		if(!isLocationOk(player)){
 			throw new BadRequestException("El tier no es correcto");
 		}
 		
