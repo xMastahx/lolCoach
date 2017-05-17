@@ -25,224 +25,313 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 
 @Path("/players")
 public class PlayerResource {
-	
-	public static final List<String> CHAMP_POOL = new ArrayList<String>
-	(Arrays.asList("Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", 
-			"Aurelion Sol", "Azir", "Bard", "Blitzcrank", "Brand", "Braum", "Caitlyn", "Camille", 
-			"Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Dr.Mundo", "Draven", "Ekko", 
-			"Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank",
-			"Garen", "Gnar", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", 
-			"Ivern", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "Kalista", "Karma", 
-			"Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Kha'Zix", "Kindred", "Kled", 
-			"Kog'Maw", "LeBlanc", "Lee Sin", "Leona", "Lissandra", "Lucian", "Lulu", "Lux", 
-			"Malphite", "Malzahar", "Maokai", "Master yi", "Miss Fortune", "Mordekaiser", 
-			"Morgana", "Nami", "Nasus", "Nautilus", "Nidalee", "Nocturne", "Nunu", "Olaf", 
-			"Orianna", "Pantheon", "Poppy", "Quinn", "Rakan", "Rammus", "Rek'Sai", "Renekton", 
-			"Rengar", "Riven", "Rumble", "Ryze", "Sejuani", "Shaco", "Shen", "Shyvana", "Singed", 
-			"Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Syndra", "Tahm Kench", 
-			"Taliyah", "Talon", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twitch", 
-			"Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Vel'Koz", "Vi", "Viktor", "Vladimir", "Volibear"
-			,"Warwick", "Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yorick", "Zac", "Zed", "Ziggs", 
-			"Zilean", "Zyra"));
-	public static final List<String> TIER_POOL = new ArrayList<String>
-	(Arrays.asList("Bronce", "Silver", "Gold", "Platinum", "Diamond", "Master", "Challenger"));
-	public static final List<String> DIVISION_POOL = new ArrayList<String>
-	(Arrays.asList("I", "II", "III", "IV", "V"));
-	public static final List<String> ROLE_POOL = new ArrayList<String>
-	(Arrays.asList("Top", "Jungler", "Mid", "Marksman", "Support"));
-	public static final List<String> REGION_POOL = new ArrayList<String>
-	(Arrays.asList("EUW", "NA", "EUE", "KOREA", "OCEANIA", "JAPAN", "BRAZIL", "LAS", "LAN", "RUSSIA", "TURKEY"));
+
+	public static final List<String> CHAMP_POOL = new ArrayList<String>(Arrays.asList("Aatrox", "Ahri", "Akali",
+			"Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Aurelion Sol", "Azir", "Bard", "Blitzcrank", "Brand",
+			"Braum", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Dr.Mundo", "Draven",
+			"Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen",
+			"Gnar", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "Janna", "Jarvan IV",
+			"Jax", "Jayce", "Jhin", "Jinx", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen",
+			"Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin", "Leona", "Lissandra", "Lucian", "Lulu",
+			"Lux", "Malphite", "Malzahar", "Maokai", "Master yi", "Miss Fortune", "Mordekaiser", "Morgana", "Nami",
+			"Nasus", "Nautilus", "Nidalee", "Nocturne", "Nunu", "Olaf", "Orianna", "Pantheon", "Poppy", "Quinn",
+			"Rakan", "Rammus", "Rek'Sai", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Sejuani", "Shaco", "Shen",
+			"Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Syndra", "Tahm Kench",
+			"Taliyah", "Talon", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twitch", "Udyr", "Urgot",
+			"Varus", "Vayne", "Veigar", "Vel'Koz", "Vi", "Viktor", "Vladimir", "Volibear", "Warwick", "Wukong", "Xayah",
+			"Xerath", "Xin Zhao", "Yasuo", "Yorick", "Zac", "Zed", "Ziggs", "Zilean", "Zyra"));
+	public static final List<String> TIER_POOL = new ArrayList<String>(
+			Arrays.asList("Bronce", "Silver", "Gold", "Platinum", "Diamond", "Master", "Challenger"));
+	public static final List<String> DIVISION_POOL = new ArrayList<String>(Arrays.asList("I", "II", "III", "IV", "V"));
+	public static final List<String> ROLE_POOL = new ArrayList<String>(
+			Arrays.asList("Top", "Jungler", "Mid", "Marksman", "Support"));
+	public static final List<String> REGION_POOL = new ArrayList<String>(
+			Arrays.asList("EUW", "NA", "EUE", "KOREA", "OCEANIA", "JAPAN", "BRAZIL", "LAS", "LAN", "RUSSIA", "TURKEY"));
+
 	private boolean areChampsOk(Player player) {
-		
+
 		Boolean res = true;
-		for (String champion : player.getChampions()){
-			if (!CHAMP_POOL.contains(champion)){
+		for (String champion : player.getChampions()) {
+			if (!CHAMP_POOL.contains(champion)) {
 				res = false;
 				break;
 			}
 		}
 		return res;
 	}
-	
+
 	private boolean isDivisionOk(Player player) {
-		
+
 		Boolean res = DIVISION_POOL.contains(player.getDivision());
 		return res;
 	}
-	
+
 	private boolean isTierOk(Player player) {
-		
+
 		Boolean res = TIER_POOL.contains(player.getTier());
 		return res;
 	}
-	
+
 	private boolean isLocationOk(Player player) {
-		
+
 		Boolean res = REGION_POOL.contains(player.getLocation());
 		return res;
 	}
-	
-	public static PlayerResource _instance=null;
+
+	private boolean areRolesOk(Player player) {
+		Boolean res = true;
+		for (String role : player.getRoles()) {
+			if (!ROLE_POOL.contains(role)) {
+				res = false;
+				break;
+			}
+		}
+		return res;
+	}
+
+	public static PlayerResource _instance = null;
 	PlayerRepository repository;
-	
-	private PlayerResource(){
-		repository=MapPlayerRepository.getInstance();
+
+	private PlayerResource() {
+		repository = MapPlayerRepository.getInstance();
+	}
+
+	public static PlayerResource getInstance() {
+		if (_instance == null)
+			_instance = new PlayerResource();
+		return _instance;
 	}
 	
-	public static PlayerResource getInstance()
-	{
-		if(_instance==null)
-			_instance=new PlayerResource();
-		return _instance; 
-	}
-	
+
 	// Recibir todos los jugadores
 	@GET
 	@Produces("application/json")
-	public Collection<Player> getAll()
-	{
-		return repository.getAllPlayers();
+	public Collection<Player> getAll() {
+
+		Collection<Player> res = repository.getAllPlayers();
+		for (Player p : res) {
+			p.setPassword("hidden");
+		}
+		return res;
 	}
-	
+
 	// Recibir un jugador según ID
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public Player get(@PathParam("id") String playerId)
-	{
+	public Player get(@PathParam("id") String playerId) {
 		Player player = repository.getPlayer(playerId);
-			if (player == null){
-				throw new NotFoundException("El jugador con ID "+ playerId + " no fué encontrado");
-			}
+		if (player == null) {
+			throw new NotFoundException("El jugador con ID " + playerId + " no fué encontrado");
+		}
+		player.setPassword("hidden");
 		return player;
 	}
-	
+
+	// Recibir jugadores por filtros
 	@GET
 	@Path("/location/{location}/tier/{tier}/lenguage/{lenguage}/role/{role}")
 	@Produces("application/json")
-	
-	public Collection<Player> getPlayersFiltered(){
-		return null;
+
+	public Collection<Player> getPlayersFiltered(@PathParam("location") String location, @PathParam("tier") String tier,
+			@PathParam("lenguage") String lenguage, @PathParam("role") String role) {
+
+		Collection<Player> filteredPlayers = repository.getAllPlayers();
+		
+		if (!location.equals("none")) {
+			for (Player p : filteredPlayers) {
+				if (!p.getLocation().toLowerCase().equals(location)) {
+					filteredPlayers.remove(p);
+				}
+			}
+		}
+		if (!tier.equals("none")) {
+			for (Player p : filteredPlayers) {
+				if (!p.getTier().toLowerCase().equals(tier)) {
+					filteredPlayers.remove(p);
+				}
+			}
+		}
+
+		if (!lenguage.equals("none")) {
+			for (Player p : filteredPlayers) {
+				for (String l : p.getLenguages()) {
+					if (!l.toLowerCase().equals(lenguage)) {
+						filteredPlayers.remove(p);
+						break;
+					}
+				}
+			}
+		}
+
+		if (!role.equals("none")) {
+			for (Player p : filteredPlayers) {
+				for (String r : p.getRoles()) {
+					if (!r.toLowerCase().equals(role)) {
+						filteredPlayers.remove(p);
+						break;
+					}
+				}
+			}
+		}
+		if (filteredPlayers == null || filteredPlayers.isEmpty()) {
+			throw new NotFoundException("No hay jugadores encontrados con estas restricciones");
+		}
+
+		for (Player p : filteredPlayers) {
+			p.setPassword("hidden");
+		}
+		return filteredPlayers;
+		
 	}
+
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addSong(@Context UriInfo uriInfo, Player player) {
-			if(player.getSummonerName() == null || "".equals(player.getSummonerName())){
-				throw new BadRequestException("El nombre de invocador no debe ser nulo o vacío");
-			}
-			
-			if(player.getPassword() == null || "".equals(player.getPassword())){
-				throw new BadRequestException("La contraseña no debe ser nula o vacía");
-			}
-			
-			if(player.getTier() == null || "".equals(player.getTier())){
-				throw new BadRequestException("El tier no debe ser nulo o vacío");
-			}
-			
-			if(player.getLocation() == null || "".equals(player.getLocation())){
-				throw new BadRequestException("La localización no debe ser nula o vacía");
-			}
-			
-			if(player.getDivision() == null || "".equals(player.getDivision())){
-				throw new BadRequestException("La división no debe ser nula o vacía");
-			}
-			
-			// Comprobación de que los valores introducidos son correctos para el juego.
-			
-			if(!areChampsOk(player)){
-				throw new BadRequestException("Los campeones no son válidos");
-			}
-			if(!isDivisionOk(player)){
-				throw new BadRequestException("La división no es válida");
-			}
-			if(!isTierOk(player)){
-				throw new BadRequestException("El tier no es correcto");
-			}
-			
-			if(!isLocationOk(player)){
-				throw new BadRequestException("El tier no es correcto");
-			}
-			
-			if((player.getTier().equals("Challenger") || (player.getTier().equals("Master"))) 
-					&& !player.getDivision().equals("I")){
-				throw new BadRequestException("La división debe ser I para jugadores en Master y Challenger");
-			}
-			repository.addPlayer(player);
-			UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
-			URI uri = ub.build(player.getId());
-			ResponseBuilder resp = Response.created(uri);
-			resp.entity(player);
-			return resp.build();
-	}
-	
-	
+		if (player.getSummonerName() == null || "".equals(player.getSummonerName())) {
+			throw new BadRequestException("El nombre de invocador no debe ser nulo o vacío");
+		}
 
+		if (player.getPassword() == null || "".equals(player.getPassword())) {
+			throw new BadRequestException("La contraseña no debe ser nula o vacía");
+		}
+
+		if (player.getTier() == null || "".equals(player.getTier())) {
+			throw new BadRequestException("El tier no debe ser nulo o vacío");
+		}
+
+		if (player.getLocation() == null || "".equals(player.getLocation())) {
+			throw new BadRequestException("La localización no debe ser nula o vacía");
+		}
+
+		if (player.getDivision() == null || "".equals(player.getDivision())) {
+			throw new BadRequestException("La división no debe ser nula o vacía");
+		}
+
+		// Comprobación de que los valores introducidos son correctos para el
+		// juego.
+
+		if (!areChampsOk(player)) {
+			throw new BadRequestException("Los campeones no son válidos");
+		}
+		if (!isDivisionOk(player)) {
+			throw new BadRequestException("La división no es válida");
+		}
+		if (!isTierOk(player)) {
+			throw new BadRequestException("El tier no es correcto");
+		}
+
+		if (!isLocationOk(player)) {
+			throw new BadRequestException("El tier no es correcto");
+		}
+
+		if (!areRolesOk(player)) {
+			throw new BadRequestException("Los roles no son correctos");
+		}
+
+		if ((player.getTier().equals("Challenger") || (player.getTier().equals("Master")))
+				&& !player.getDivision().equals("I")) {
+			throw new BadRequestException("La división debe ser I para jugadores en Master y Challenger");
+		}
+		repository.addPlayer(player);
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(), "get");
+		URI uri = ub.build(player.getId());
+		ResponseBuilder resp = Response.created(uri);
+		resp.entity(player);
+		return resp.build();
+	}
 
 	@PUT
 	@Consumes("application/json")
 	public Response updateSong(Player player) {
-		
-		if(player.getSummonerName() == null || "".equals(player.getSummonerName())){
+
+		Player oldPlayer = repository.getPlayer(player.getId());
+		// Búsqueda de jugador
+
+		if (oldPlayer == null) {
+			throw new NotFoundException("El jugador con ID " + player.getId() + " no fué encontrado");
+		}
+
+		// Comprobación de contraseña
+
+		if (!oldPlayer.getPassword().equals(player.getPassword())) {
+			throw new BadRequestException("Contraseña incorrecta");
+		}
+
+		// Excepciones null y vacio
+
+		if (player.getSummonerName() == null || "".equals(player.getSummonerName())) {
 			throw new BadRequestException("El nombre de invocador no debe ser nulo o vacío");
 		}
-		
-		if(player.getPassword() == null || "".equals(player.getPassword())){
+
+		if (player.getPassword() == null || "".equals(player.getPassword())) {
 			throw new BadRequestException("La contraseña no debe ser nula o vacía");
 		}
-		
-		if(player.getTier() == null || "".equals(player.getTier())){
+
+		if (player.getTier() == null || "".equals(player.getTier())) {
 			throw new BadRequestException("El tier no debe ser nulo o vacío");
 		}
-		
-		if(player.getLocation() == null || "".equals(player.getLocation())){
+
+		if (player.getLocation() == null || "".equals(player.getLocation())) {
 			throw new BadRequestException("La localización no debe ser nula o vacía");
 		}
-		
-		if(player.getDivision() == null || "".equals(player.getDivision())){
+
+		if (player.getDivision() == null || "".equals(player.getDivision())) {
 			throw new BadRequestException("La división no debe ser nula o vacía");
 		}
-		
-		// Comprobación de que los valores introducidos son correctos para el juego.
-		
-		if(!areChampsOk(player)){
+
+		// Comprobación de que los valores introducidos son correctos para el
+		// juego.
+
+		if (!areChampsOk(player)) {
 			throw new BadRequestException("Los campeones no son válidos");
 		}
-		if(!isDivisionOk(player)){
+		if (!isDivisionOk(player)) {
 			throw new BadRequestException("La división no es válida");
 		}
-		if(!isTierOk(player)){
-			throw new BadRequestException("El tier no es correcto");
+		if (!isTierOk(player)) {
+			throw new BadRequestException("El tier no es válido");
 		}
-		
-		if(!isLocationOk(player)){
-			throw new BadRequestException("El tier no es correcto");
+
+		if (!isLocationOk(player)) {
+			throw new BadRequestException("La localización no es válida");
 		}
-		
-		if((player.getTier().equals("Challenger") || (player.getTier().equals("Master"))) 
-				&& !player.getDivision().equals("I")){
+
+		if (!areRolesOk(player)) {
+			throw new BadRequestException("Los roles no son correctos");
+		}
+
+		if ((player.getTier().equals("Challenger") || (player.getTier().equals("Master")))
+				&& !player.getDivision().equals("I")) {
 			throw new BadRequestException("La división debe ser I para jugadores en Master y Challenger");
 		}
-		
-		return Response.noContent().build();	}
-	
-	@DELETE
-	@Path("/{id}")
-	public Response removeSong(@PathParam("id") String playerId) {
-		
-		Player playerRemoved = repository.getPlayer(playerId);
-		
-		if (playerRemoved == null) {
-			throw new NotFoundException("El jugador con id " + playerId +" no fue encontrado");
-		}else{
-			repository.deletePlayer(playerId);
-		}
-		
-		return Response.noContent().build();
+
+		repository.updatePlayer(player);
+		return Response.ok().build();
 	}
-	
+
+	@DELETE
+	@Path("/{id}/{password}")
+	public Response removeSong(@PathParam("id") String playerId, @PathParam("password") String password) {
+
+		Player playerRemoved = repository.getPlayer(playerId);
+
+		if (playerRemoved == null) {
+			throw new NotFoundException("El jugador con id " + playerId + " no fue encontrado");
+		}
+
+		if (!playerRemoved.getPassword().equals(password)) {
+			throw new NotFoundException("Contraseña incorrecta");
+		}
+
+		repository.deletePlayer(playerId);
+
+		return Response.ok().build();
+	}
+
 }

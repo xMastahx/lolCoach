@@ -41,12 +41,12 @@ public class MapPlayerRepository implements PlayerRepository{
 		champions.add("Draven");
 		lenguages.add("English");
 		Tyler1.setChampions(champions);
-		Tyler1.setDivision("Challenger");
+		Tyler1.setDivision("I");
 		Tyler1.setEmail("bestdravenna@gmail.com");
 		Tyler1.setLenguages(lenguages);
 		Tyler1.setLocation("NA");
 		Tyler1.setSummonerName("Tyler1");
-		Tyler1.setTier("I");
+		Tyler1.setTier("Challenger");
 		Tyler1.setPassword("tyler");
 		Tyler1.setRoles(roles);
 		addPlayer(Tyler1);
@@ -63,21 +63,13 @@ public class MapPlayerRepository implements PlayerRepository{
 	
 	@Override
 	public Collection<Player> getAllPlayers() {
-		Map<String, Player> displayedMap = new HashMap<String,Player>();
-		
-		Set<String> keySet = playerMap.keySet();
-		for(String key : keySet) {
-			Player p = playerMap.get(key);
-			p.setPassword("You shouldn't be seeing this");
-			displayedMap.put(key, p);
-		}
-			return displayedMap.values();
+		Collection<Player> res = new ArrayList<Player>(playerMap.values());
+		return res;
 	}
 
 	@Override
 	public Player getPlayer(String id) {
-		Player displayedPlayer = playerMap.get(id);
-		displayedPlayer.setPassword("You shouldn't be seeing this");
+		Player displayedPlayer = new Player(playerMap.get(id));
 		return displayedPlayer;
 	}
 

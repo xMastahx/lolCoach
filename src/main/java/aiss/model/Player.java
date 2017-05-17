@@ -19,18 +19,17 @@ public class Player {
 	public Player() {
 	}
 
-	public Player(String summonerName, String password, String tier, String location,
-			String division) {
-		this.id = null;
-		this.summonerName = summonerName;
-		this.champions = new ArrayList<String>();
-		this.location = location;
-		this.tier = tier;
-		this.division = division;
-		this.lenguages = new ArrayList<String>();
-		this.email = null;
-		this.password = password;
-		this.roles = new ArrayList<String>();
+	public Player(Player player) {
+		this.id = player.getId();
+		this.summonerName = player.getSummonerName();
+		this.champions = player.getChampions();
+		this.location = player.getLocation();
+		this.tier = player.getTier();
+		this.division = player.getDivision();
+		this.lenguages = player.getLenguages();
+		this.email = player.getEmail();
+		this.password = player.getPassword();
+		this.roles = player.getRoles();
 	}
 	
 	
