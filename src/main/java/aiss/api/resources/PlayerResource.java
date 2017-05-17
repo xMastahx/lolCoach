@@ -45,7 +45,7 @@ public class PlayerResource {
 			"Varus", "Vayne", "Veigar", "Vel'Koz", "Vi", "Viktor", "Vladimir", "Volibear", "Warwick", "Wukong", "Xayah",
 			"Xerath", "Xin Zhao", "Yasuo", "Yorick", "Zac", "Zed", "Ziggs", "Zilean", "Zyra"));
 	public static final List<String> TIER_POOL = new ArrayList<String>(
-			Arrays.asList("Bronce", "Silver", "Gold", "Platinum", "Diamond", "Master", "Challenger"));
+			Arrays.asList("Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Challenger"));
 	public static final List<String> DIVISION_POOL = new ArrayList<String>(Arrays.asList("I", "II", "III", "IV", "V"));
 	public static final List<String> ROLE_POOL = new ArrayList<String>(
 			Arrays.asList("Top", "Jungler", "Mid", "Marksman", "Support"));
@@ -105,14 +105,13 @@ public class PlayerResource {
 			_instance = new PlayerResource();
 		return _instance;
 	}
-	
 
 	// Recibir todos los jugadores
 	@GET
 	@Produces("application/json")
 	public Collection<Player> getAll() {
 
-		Collection<Player> res = repository.getAllPlayers();
+		Collection<Player> res = repository.getCopyAllPlayers();
 		for (Player p : res) {
 			p.setPassword("hidden");
 		}
@@ -124,7 +123,7 @@ public class PlayerResource {
 	@Path("/{id}")
 	@Produces("application/json")
 	public Player get(@PathParam("id") String playerId) {
-		Player player = repository.getPlayer(playerId);
+		Player player = repository.getPlayerCopy(playerId);
 		if (player == null) {
 			throw new NotFoundException("El jugador con ID " + playerId + " no fué encontrado");
 		}
@@ -140,8 +139,8 @@ public class PlayerResource {
 	public Collection<Player> getPlayersFiltered(@PathParam("location") String location, @PathParam("tier") String tier,
 			@PathParam("lenguage") String lenguage, @PathParam("role") String role) {
 
-		Collection<Player> filteredPlayers = repository.getAllPlayers();
-		
+		Collection<Player> filteredPlayers = repository.getCopyAllPlayers();
+
 		if (!location.equals("none")) {
 			for (Player p : filteredPlayers) {
 				if (!p.getLocation().toLowerCase().equals(location)) {
@@ -159,25 +158,37 @@ public class PlayerResource {
 
 		if (!lenguage.equals("none")) {
 			for (Player p : filteredPlayers) {
+				Boolean test = false;
 				for (String l : p.getLenguages()) {
-					if (!l.toLowerCase().equals(lenguage)) {
-						filteredPlayers.remove(p);
+					if (l.toLowerCase().equals(lenguage)) {
+						test = true;
 						break;
 					}
+
+				}
+				if (test == false){
+					filteredPlayers.remove(p);	
 				}
 			}
+
 		}
 
 		if (!role.equals("none")) {
 			for (Player p : filteredPlayers) {
+				Boolean test = false;
 				for (String r : p.getRoles()) {
-					if (!r.toLowerCase().equals(role)) {
+					if (r.toLowerCase().equals(role)) {
 						filteredPlayers.remove(p);
+						test = true;
 						break;
 					}
 				}
+				if (test == false){
+					filteredPlayers.remove(p);	
+				}
 			}
 		}
+
 		if (filteredPlayers == null || filteredPlayers.isEmpty()) {
 			throw new NotFoundException("No hay jugadores encontrados con estas restricciones");
 		}
@@ -186,7 +197,7 @@ public class PlayerResource {
 			p.setPassword("hidden");
 		}
 		return filteredPlayers;
-		
+
 	}
 
 	@POST

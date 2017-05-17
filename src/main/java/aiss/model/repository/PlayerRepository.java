@@ -12,6 +12,8 @@ public interface PlayerRepository {
 	public void addPlayer(Player p);
 	public Collection<Player> getAllPlayers();
 	public Player getPlayer(String id);
+	public Player getPlayerCopy(String id);
+	public Collection<Player> getCopyAllPlayers();
 	public void updatePlayer(Player s);
 	public void deletePlayer(String id);	
 
