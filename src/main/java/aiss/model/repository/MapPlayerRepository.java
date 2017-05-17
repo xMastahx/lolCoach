@@ -3,6 +3,7 @@ package aiss.model.repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +64,7 @@ public class MapPlayerRepository implements PlayerRepository{
 	
 	@Override
 	public Collection<Player> getAllPlayers() {
-		Collection<Player> res = new ArrayList<Player>(playerMap.values());
+		Collection<Player> res = new HashSet<Player>(playerMap.values());
 		return res;
 	}
 
