@@ -24,6 +24,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -139,64 +140,65 @@ public class PlayerResource {
 	public Collection<Player> getPlayersFiltered(@PathParam("location") String location, @PathParam("tier") String tier,
 			@PathParam("lenguage") String lenguage, @PathParam("role") String role) {
 
-		Collection<Player> filteredPlayers = repository.getCopyAllPlayers();
-
+		Collection<Player> res = repository.getCopyAllPlayers();
+		Set<Player> playersToBeRemoved = new HashSet<Player>();
+		
 		if (!location.equals("none")) {
-			for (Player p : filteredPlayers) {
-				if (!p.getLocation().toLowerCase().equals(location)) {
-					filteredPlayers.remove(p);
+			for (Player p : res) {
+				if (!location.equals(p.getLocation().toLowerCase())) {
+					playersToBeRemoved.add(p);
 				}
 			}
 		}
+
 		if (!tier.equals("none")) {
-			for (Player p : filteredPlayers) {
-				if (!p.getTier().toLowerCase().equals(tier)) {
-					filteredPlayers.remove(p);
+			for (Player p : res) {
+				if (!tier.equals(p.getTier().toLowerCase())) {
+					playersToBeRemoved.add(p);
 				}
 			}
 		}
 
 		if (!lenguage.equals("none")) {
-			for (Player p : filteredPlayers) {
-				Boolean test = false;
+			for (Player p : res) {
+				Boolean isLenguageOk = true;
 				for (String l : p.getLenguages()) {
-					if (l.toLowerCase().equals(lenguage)) {
-						test = true;
+					if (!lenguage.equals(l.toLowerCase())) {
+						isLenguageOk = false;
 						break;
 					}
-
 				}
-				if (test == false){
-					filteredPlayers.remove(p);	
+				if (!isLenguageOk) {
+					playersToBeRemoved.add(p);
 				}
 			}
-
 		}
 
 		if (!role.equals("none")) {
-			for (Player p : filteredPlayers) {
-				Boolean test = false;
+			for (Player p : res) {
+				Boolean isRoleOk = true;
 				for (String r : p.getRoles()) {
-					if (r.toLowerCase().equals(role)) {
-						filteredPlayers.remove(p);
-						test = true;
+					if (!role.equals(r.toLowerCase())) {
+						isRoleOk = false;
 						break;
 					}
 				}
-				if (test == false){
-					filteredPlayers.remove(p);	
+				if (!isRoleOk) {
+					playersToBeRemoved.add(p);
 				}
 			}
 		}
+		res.removeAll(playersToBeRemoved);
 
-		if (filteredPlayers == null || filteredPlayers.isEmpty()) {
-			throw new NotFoundException("No hay jugadores encontrados con estas restricciones");
+		if(res == null || res.isEmpty()){
+			throw new NotFoundException("Jugadores no encontrados");
 		}
-
-		for (Player p : filteredPlayers) {
+		
+		for (Player p : res) {
 			p.setPassword("hidden");
 		}
-		return filteredPlayers;
+		
+		return res;
 
 	}
 

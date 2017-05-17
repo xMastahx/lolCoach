@@ -112,11 +112,13 @@ public class MapPlayerRepository implements PlayerRepository{
 		return playerMap.get(id);
 	}
 	
+	@Override
 	public Player getPlayerCopy(String id){
 		Player playerCopy = new Player (playerMap.get(id));
 		return playerCopy;
 	}
 	
+	@Override
 	public Collection<Player> getCopyAllPlayers(){
 		Set<String> keySet = playerMap.keySet();
 		Map<String, Player> copyPlayers = new HashMap<String,Player>();
