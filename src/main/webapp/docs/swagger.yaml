@@ -104,24 +104,27 @@ paths:
           
         404:
           description: Jugador no encontrado
-    delete:
+    
+  /players/id/password:
+   delete:
       tags:
       - players
       summary: Elimina un jugador
       operationId: deletePlayer
-      description: Elimina el jugador con la id introducida
+      description: Elimina el jugador con la id introducida, si la contraseña es correcta.
       produces:
       - application/json
       parameters:
       - in: body
-        name: id
-        description: id del jugador a eliminar
+        name: id, password
+        description: id y contraseña del jugador a eliminar
         schema:
           type: string
-          example: p0
       responses:
         200:
           description: Jugador eliminado
+        400:
+          description: Contraseña incorrecta
         404:
           description: Jugador no encontrado
   /players/location/"location"/tier/"tier"/lenguage/"lenguage"/role/"role":
