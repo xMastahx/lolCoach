@@ -1,0 +1,202 @@
+swagger: '2.0'
+info:
+  description: Regístrate y encuentra jugadores para sesiones de coach de LoL
+  version: 1.0.0
+  title: LolCoach API
+  # put the contact info for your development or API team
+  
+
+
+
+# all paths will be relative to the basePath specified
+# basePath: /v1
+
+# tags are used for organizing operations
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+schemes:
+- https
+paths:
+  /players:
+    get:
+      tags:
+      - players
+      summary: Muestra todos los jugadores
+      operationId: getAllPlayers
+      description: Muestra todos los jugadores
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Muestra todos los jugadores
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Player'
+    
+    post:
+      tags:
+      - players
+      summary: Añade un jugador
+      operationId: addPlayer
+      description: Añade un jugador
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Player
+        description: Jugador a añadir
+        schema:
+          $ref: '#/definitions/Player'
+      responses:
+        201:
+          description: Jugador creado
+        400:
+          description: Información errónea, ningún parámetro del jugador debe estar vacío o nulo. El parámetro champion debe ser uno de los campeones del juego. El tier debe ser Bronze, Silver, Gold, Platinum, Diamond o Challenger. La división de I a V. El rol Top, Jungler, Mid, Marksman o Support. La región EUW, NA, EUE, KOREA, OCEANIA, JAPAN, BRAZIL, LAS, LAN, RUSSIA o TURKEY.
+    put:
+     tags:
+      - players
+     summary: Actualiza un jugador
+     operationId: updatePlayer
+     description: Actualiza un jugador
+     consumes:
+      - application/json
+     parameters:
+      - in: body
+        name: Player
+        description: Jugador a añadir
+        schema:
+          $ref: '#/definitions/Player'
+     responses:
+        200:
+          description: Jugador actualizado.
+        400:
+          description: Además de las restricciones para crear un jugador, la contraseña del jugador introducido debe coincidir con la del jugador a actualizar para que la operación se realice.
+        404:
+          description: Jugador no encontrado.
+          
+  /players/id:
+    get:
+      tags:
+      - players
+      summary: Busca un jugador
+      operationId: getPlayer
+      description: Muestra el jugador con la id introducida
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: id
+        description: id del jugador a buscar
+        schema:
+          type: string
+          example: p0
+      responses:
+        200:
+          description: Jugador encontrado
+          schema:
+            $ref: '#/definitions/Player'
+          
+        404:
+          description: Jugador no encontrado
+    delete:
+      tags:
+      - players
+      summary: Elimina un jugador
+      operationId: deletePlayer
+      description: Elimina el jugador con la id introducida
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: id
+        description: id del jugador a eliminar
+        schema:
+          type: string
+          example: p0
+      responses:
+        200:
+          description: Jugador eliminado
+        404:
+          description: Jugador no encontrado
+  /players/location/"location"/tier/"tier"/lenguage/"lenguage"/role/"role":
+    get:
+      tags:
+      - players
+      summary: Busca un jugador filtrado
+      operationId: getPlayersFiltered
+      description: Muestra los jugadores que cumplan los criterios introducidos, si quiere omitir alguno escriba "none".
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: location, tier, lenguage, role
+        description: Filtros de búsqueda
+        schema:
+          type: string
+      responses:
+        200:
+          description: Jugadores encontrados
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Player'
+        404:
+          description: Ningún jugador encontrado 
+    
+  
+definitions:
+  Player:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        example: p0
+      summoner_name:
+        type: string
+        example: Tyler1
+      champions:
+        type: array
+        items: 
+          type: string
+          example: Draven
+      location:
+        type: string
+        example: EUW
+      tier:
+        type: string
+        example: Challenger
+      division: 
+        type: string
+        example: I
+      lenguages:
+        type: array
+        items:
+          type: array
+          example: English
+      email:
+        type: string
+        example: bestdravenna@gmail.com
+      password:
+        type: string
+      roles: 
+        type: array
+        items:
+          type: string
+          example: Marksman
+# Added by API Auto Mocking Plugin
+# host: lolcoach-167923.appspot.com
+# basePath: /api
+# Added by API Auto Mocking Plugin
+# host: lolcoach-167923.appspot.com
+# basePath: /api
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /xMastahx/LolCoach/1.0.0

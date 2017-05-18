@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
+
 import aiss.model.Player;
 import aiss.model.repository.MapPlayerRepository;
 import aiss.model.repository.PlayerRepository;
@@ -142,7 +143,7 @@ public class PlayerResource {
 
 		Collection<Player> res = repository.getCopyAllPlayers();
 		Set<Player> playersToBeRemoved = new HashSet<Player>();
-		
+
 		if (!location.equals("none")) {
 			for (Player p : res) {
 				if (!location.equals(p.getLocation().toLowerCase())) {
@@ -190,14 +191,14 @@ public class PlayerResource {
 		}
 		res.removeAll(playersToBeRemoved);
 
-		if(res == null || res.isEmpty()){
+		if (res == null || res.isEmpty()) {
 			throw new NotFoundException("Jugadores no encontrados");
 		}
-		
+
 		for (Player p : res) {
 			p.setPassword("hidden");
 		}
-		
+
 		return res;
 
 	}
@@ -213,7 +214,11 @@ public class PlayerResource {
 		if (player.getPassword() == null || "".equals(player.getPassword())) {
 			throw new BadRequestException("La contraseña no debe ser nula o vacía");
 		}
+		if (!player.getPassword().matches("[a-zA-Z0-9]+")){
+			throw new BadRequestException("La contraseña debe ser alfanumérica");
 
+		}
+		
 		if (player.getTier() == null || "".equals(player.getTier())) {
 			throw new BadRequestException("El tier no debe ser nulo o vacío");
 		}
@@ -226,6 +231,14 @@ public class PlayerResource {
 			throw new BadRequestException("La división no debe ser nula o vacía");
 		}
 
+		if (player.getLenguages().isEmpty() || player.getLenguages() == null) {
+			throw new BadRequestException("Deben añadirse idiomas");
+		}
+		
+		if (player.getRoles().isEmpty() || player.getRoles() == null) {
+			throw new BadRequestException("Deben añadirse roles");
+		}
+		
 		// Comprobación de que los valores introducidos son correctos para el
 		// juego.
 
@@ -275,6 +288,11 @@ public class PlayerResource {
 		if (!oldPlayer.getPassword().equals(player.getPassword())) {
 			throw new BadRequestException("Contraseña incorrecta");
 		}
+		
+		if (!player.getPassword().matches("[a-zA-Z0-9]+")){
+			throw new BadRequestException("La contraseña debe ser alfanumérica");
+
+		}
 
 		// Excepciones null y vacio
 
@@ -297,7 +315,14 @@ public class PlayerResource {
 		if (player.getDivision() == null || "".equals(player.getDivision())) {
 			throw new BadRequestException("La división no debe ser nula o vacía");
 		}
-
+		
+		if (player.getLenguages().isEmpty() || player.getLenguages() == null) {
+			throw new BadRequestException("Deben añadirse idiomas");
+		}
+		
+		if (player.getRoles().isEmpty() || player.getRoles() == null) {
+			throw new BadRequestException("Deben añadirse roles");
+		}
 		// Comprobación de que los valores introducidos son correctos para el
 		// juego.
 
