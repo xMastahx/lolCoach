@@ -201,5 +201,8 @@ definitions:
 # host: lolcoach-167923.appspot.com
 # basePath: /api
 # Added by API Auto Mocking Plugin
+# host: lolcoach-167923.appspot.com
+# basePath: /api
+# Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
 basePath: /xMastahx/LolCoach/1.0.0
